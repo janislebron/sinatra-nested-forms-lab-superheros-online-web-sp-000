@@ -1,4 +1,3 @@
-  
 require 'sinatra/base'
 
 class App < Sinatra::Base
@@ -9,12 +8,12 @@ class App < Sinatra::Base
     erb :super_hero
   end
   
-  post '/team' do
-      @team = Team.new(params[:team])
-      members = params[:team][:members]
-      @super_heros = members.collect do |member_params|
-        SuperHero.new(member_params)
-      end
-      erb :team
+  post '/teams' do
+    @team = Team.new(params[:team])
+    params[:team][:heroes].each do |details|
+      SuperHero.new(details)
     end
+    @heroes = SuperHero.all
+    erb :team
+  end
 end
